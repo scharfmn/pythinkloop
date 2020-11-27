@@ -20,17 +20,25 @@ AUTHOR_FEED_RSS = None
 
 # Blogroll
 LINKS = (
+    ('Iheanyi Ekechukwu', 'https://iheanyi.com'),
+    ('Ines Montani', 'https://ines.io/'),
+    ('Mekka Okereke', 'https://mekka-tech.com'),
+    ('Sami Badawi', 'https://blog.samibadawi.com/'),
+    ('Susan Potter', 'https://susanpotter.net'),
+    ('Patick McKenzie', 'https://kalzumeus.com'),
+    ('Amy Nguyen', 'https://amy.dev'),
+    ('Maggie Appleton', 'https://maggieappleton.com'),
     ('Python.org', 'https://www.python.org/'),
     ('Think Python', 'https://greenteapress.com/wp/think-python-2e/'),
     ('Strange Loop', 'https://www.thestrangeloop.com/'),
     ('David Beazley', 'https://www.dabeaz.com/'),
     ('Brett Slatkin', 'https://www.onebigfluke.com/'),
-    ('Aaron C. Hall', 'https://aaronchall.github.io/')
 )
 
 # Social widget
 SOCIAL = (
-    ('', '#'),
+    ('@scharfmn', 'https://github.com/scharfmn'),
+    ('@snowcompiler', 'https://twitter.com/snowcompiler'),
 )
 
 DEFAULT_PAGINATION = 10
