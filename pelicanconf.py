@@ -3,7 +3,7 @@
 
 AUTHOR = 'Michael Scharf'
 SITENAME = 'pythinkloop'
-SITEURL = ''
+SITEURL = 'https://pythinkloop.com'
 
 PATH = 'content'
 
@@ -17,6 +17,10 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
+
+GOOGLE_ANALYTICS = 'G-B8E9WY9S7W'
+
+LINKS_WIDGET_NAME = 'Influences and resources'
 
 # Blogroll
 LINKS = (
