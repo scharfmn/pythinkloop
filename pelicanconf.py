@@ -21,6 +21,7 @@ AUTHOR_FEED_RSS = None
 GOOGLE_ANALYTICS = 'G-B8E9WY9S7W'
 
 LINKS_WIDGET_NAME = 'Influences and resources'
+# PYGMENTS_RST_OPTIONS = {'linenos': 'table'}
 
 # Blogroll
 LINKS = (

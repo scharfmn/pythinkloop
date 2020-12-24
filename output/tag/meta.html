@@ -3,7 +3,7 @@
 <head>
         <meta charset="utf-8" />
         <meta name="generator" content="Pelican" />
-        <title>pythinkloop - Michael Scharf</title>
+        <title>pythinkloop - Meta</title>
         <link rel="stylesheet" href="https://pythinkloop.com/theme/css/main.css" />
 </head>
 
@@ -12,12 +12,13 @@
                 <h1><a href="https://pythinkloop.com/">pythinkloop</a></h1>
                 <nav><ul>
                     <li><a href="https://pythinkloop.com/category/meta.html">Meta</a></li>
+                    <li><a href="https://pythinkloop.com/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://pythinkloop.com/site-mechanics.html">The mechanics of what's here...</a></h1>
+                    <h1 class="entry-title"><a href="https://pythinkloop.com/the-mechanics-of-whats-here.html">The mechanics of what's here</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2020-11-27T20:15:00-05:00">
                 Published: Fri 27 November 2020
@@ -30,13 +31,12 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="https://pythinkloop.com/author/michael-scharf.html">Michael Scharf</a>
         </address>
-<p>In <a href="https://pythinkloop.com/category/meta.html">Meta</a>.</p>
-
-</footer><!-- /.post-info --><p>Q: "Which static-site generator makes you happy as a Python developer / what did you end up using?" </p>
-<p>I looked at js-based solutions like <a href="https://ghost.org/">ghost</a> (too much), and the great Go-based <a href="https://gohugo.io/">Hugo</a> (maybe after I finally learn Go). In Ruby-world, there is the cool-looking but seemingly unmaintained <a href="https://github.com/cloudhead/toto">toto</a> (last commit in 2013), and the major player: <a href="https://jekyllrb.com/">Jekyll</a>. </p>
+<p>In <a href="https://pythinkloop.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="https://pythinkloop.com/tag/meta.html">Meta</a> </p>
+</footer><!-- /.post-info --><p>Which static-site generator to use? I looked at js-based solutions like <a href="https://ghost.org/">ghost</a> (too much), and the great Go-based <a href="https://gohugo.io/">Hugo</a> (maybe after I finally learn Go). In Ruby-world, there is the cool-looking but seemingly unmaintained <a href="https://github.com/cloudhead/toto">toto</a> (last commit in 2013), and the major player: <a href="https://jekyllrb.com/">Jekyll</a>. </p>
 <p>Jekyll seems like the obvious choice: it is the force behind <a href="https://pages.github.com/">GitHub Pages</a>, which I have actually used for prior projects. And the amazing-looking <a href="https://staticman.net/">staticman</a>, which actually seems to solve the problem of comments for static sites, is built for it. </p>
 <p>The problem, for me, with the Jekyll-GitHub Pages-staticman setup is <a href="https://gigaom.com/2014/06/30/the-dark-side-of-io-how-the-u-k-is-making-web-domain-profits-from-a-shady-cold-war-land-deal/">the dark side of io</a>. Even if you are using your own domain with Github pages, it seemingly relies under the hood on a <code>.io</code> domain, which I don't want to engage.</p>
-<p>And so, since I also didn't particularly want to get involved with <a href="https://disqus.com/">Disqus</a>, I decided to forget about comments for now and go with <a href="https://blog.getpelican.com/">Pelican</a>. It's Python, it's battle-tested, and it's simple to host via a cloud bucket. And that "Pelican" turns out to be an anagram of <em>calepin</em>, which is French for "notebook," made it that much nicer.</p>
+<p>And so, since I also do not particularly want to get involved with <a href="https://disqus.com/">Disqus</a>, I decided to forget about comments for now and go with <a href="https://blog.getpelican.com/">Pelican</a>. It's Python, it's battle-tested, and it's simple to host via a cloud bucket. And that "Pelican" turns out to be an anagram of <em>calepin</em>, which is French for "notebook," made it that much nicer.</p>
 <p>Which cloud bucket? I've ended up on Google Cloud Platform for my personal projects. The reason has been, up to this point, <a href="https://firebase.google.com/">Firebase</a> (which was first recommended to me by my <a href="https://blog.samibadawi.com/">Sensei</a>). When you're writing a few pages by hand, and/or need a db, there doesn't seem to be an easier way to host a site. That's not really what this is, though, so when I thought about this site, I thought first: <a href="https://domains.google.com">Google Domains</a> and then: <a href="https://cloud.google.com/storage">Google Cloud Storage</a> must, by now, have the same functionality as GitHub Pages. That second thought looked to be correct, and once I found this <a href="https://cloud.google.com/storage/docs/hosting-static-website">tutorial for static site hosting on GCP</a>, I decided to try it.</p>
 <p>For <a href="https://pythinkloop.com/hello-and-what.html">my first Pelican-based post</a>, I read the <a href="https://docs.getpelican.com/en/latest/quickstart.html">quickstart</a>, and followed the directions. My markdown is not particularly fast, but there are cheat sheets. (I won't post one because I haven't settled on any.)</p>
 <p>I bought the domain and slowly followed the hosting tutorial <a href="https://cloud.google.com/storage/docs/hosting-static-website">directions</a>. Once I had completed all the steps, I tested via</p>
@@ -54,41 +54,13 @@
 <p>To publish this post, will take an incremental step toward CI by using Google Cloud's version of <a href="https://cloud.google.com/storage/docs/gsutil/commands/rsync">rsync</a>. From <a href="https://cloud.google.com/community/tutorials/automated-publishing-cloud-build">this post</a>, I learned the following:
 "The -m flag accelerates upload by processing multiple files in parallel, and the -c flag avoids re-uploading unchanged files." The -r flag recurses through the subdirs. The -d flag, the doc says, "provides a means of making the contents of a destination bucket or directory match those of a source bucket or directory."</p>
 <p>So the final command, having installed the <a href="https://cloud.google.com/storage/docs/gsutil">gsutil tool</a> is:</p>
-<div class="highlight"><pre><span></span><code>$ gsutil -m rsync -r -d /Users/Mike/projects/pythinkloop/output gs://pythinkloop.com
+<div class="highlight"><pre><span></span><code>$ gsutil -m rsync -r -d ./your-dir gs://your-bucket
 </code></pre></div>
 
 
 <p>and if it works, this should show up...</p>
 <p>(it worked after I did <a href="https://stackoverflow.com/a/56952730/1599229">this</a> within the env)</p>                </article>
             </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://pythinkloop.com/hello-and-what.html" rel="bookmark"
-                           title="Permalink to Hello and what">Hello and what</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2020-11-27T11:15:00-05:00">
-                Published: Fri 27 November 2020
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://pythinkloop.com/author/michael-scharf.html">Michael Scharf</a>
-        </address>
-<p>In <a href="https://pythinkloop.com/category/meta.html">Meta</a>.</p>
-
-</footer><!-- /.post-info -->                <p>Starting this blog to document my Python and programming study &amp; working-through etc. I studied cognitive science, linguistics, and literature in school, along with a little bit of computer science. Literature won out in one sense (Ph.D.), but in terms of a day-to-day professional life, Python programming (mostly backend) has …</p>
-                <a class="readmore" href="https://pythinkloop.com/hello-and-what.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-                </ol><!-- /#posts-list -->
-                </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>Influences and resources</h2>
