@@ -17,7 +17,126 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://pythinkloop.com/site-mechanics.html">The mechanics of what's here...</a></h1>
+                    <h1 class="entry-title"><a href="https://pythinkloop.com/hosting-update.html">Update: Hosting Pelican with Firebase</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2020-12-28T19:15:00-05:00">
+                Published: Mon 28 December 2020
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://pythinkloop.com/author/michael-scharf.html">Michael Scharf</a>
+        </address>
+<p>In <a href="https://pythinkloop.com/category/meta.html">Meta</a>.</p>
+
+</footer><!-- /.post-info --><p>So I got a hosting bill for $18.33 US for December and... no. There's no traffic to this site, so I must be paying 60 cents a day for the load balancer part of <a href="https://cloud.google.com/storage/docs/hosting-static-website">this tutorial</a>. So I deleted the load balancer and thought again: Firebase.</p>
+<p>So searched around and found <a href="https://www.smashingmagazine.com/2020/04/free-developer-blog-hugo-firebase/">this tutorial</a> for Hugo + Firebase (from Smashing Magazine) and I figured: it will probably work if I skip to the part where Hugo has already generated the site and then sub in the Pelican-generated site for the rest of the steps.</p>
+<p>Recall <a href="https://pythinkloop.com/site-mechanics.html">how I generate this Pelican site</a>, but disregard all of the Google Cloud Storage bits.</p>
+<p>With the site generated, I tried beginning from from the point of "Deploying Your Blog To Firebase" in <a href="https://www.smashingmagazine.com/2020/04/free-developer-blog-hugo-firebase/">the Hugo-based tutorial</a> and... it did work. Here's what I did:</p>
+<p>After the</p>
+<div class="highlight"><pre><span></span><code>$ firebase init
+</code></pre></div>
+
+
+<p>command, I needed to tell it to use the</p>
+<div class="highlight"><pre><span></span><code><span class="err">/home/mike/things/pythinkloop/output</span>
+</code></pre></div>
+
+
+<p>directory as the "public directory." (Note: almost certainly doesn't matter, but that's a fake dir structure.) And I added GitHub integration as well, so that every push to main deploys automatically. Here's the whole dialogue:</p>
+<div class="highlight"><pre><span></span><code><span class="err">$</span><span class="w"> </span><span class="n">firebase</span><span class="w"> </span><span class="n">init</span><span class="w"></span>
+
+<span class="vm">?</span><span class="w"> </span><span class="n">What</span><span class="w"> </span><span class="n">do</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">want</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">directory</span><span class="vm">?</span><span class="w"> </span><span class="k">output</span><span class="w"></span>
+<span class="vm">?</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">single</span><span class="o">-</span><span class="n">page</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="p">(</span><span class="n">rewrite</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">urls</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="o">/</span><span class="k">index</span><span class="p">.</span><span class="n">html</span><span class="p">)</span><span class="vm">?</span><span class="w"> </span><span class="k">No</span><span class="w"></span>
+<span class="vm">?</span><span class="w"> </span><span class="k">Set</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="n">automatic</span><span class="w"> </span><span class="n">builds</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">deploys</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">GitHub</span><span class="vm">?</span><span class="w"> </span><span class="n">Yes</span><span class="w"></span>
+<span class="err">✔</span><span class="w">  </span><span class="n">Wrote</span><span class="w"> </span><span class="k">output</span><span class="o">/</span><span class="mf">404.</span><span class="n">html</span><span class="w"></span>
+<span class="vm">?</span><span class="w"> </span><span class="k">File</span><span class="w"> </span><span class="k">output</span><span class="o">/</span><span class="k">index</span><span class="p">.</span><span class="n">html</span><span class="w"> </span><span class="n">already</span><span class="w"> </span><span class="ow">exists</span><span class="p">.</span><span class="w"> </span><span class="n">Overwrite</span><span class="vm">?</span><span class="w"> </span><span class="k">No</span><span class="w"></span>
+<span class="n">i</span><span class="w">  </span><span class="n">Skipping</span><span class="w"> </span><span class="k">write</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="k">output</span><span class="o">/</span><span class="k">index</span><span class="p">.</span><span class="n">html</span><span class="w"></span>
+
+<span class="n">i</span><span class="w">  </span><span class="n">Detected</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">.</span><span class="n">git</span><span class="w"> </span><span class="n">folder</span><span class="w"> </span><span class="k">at</span><span class="w"> </span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">mike</span><span class="o">/</span><span class="n">things</span><span class="o">/</span><span class="n">pythinkloop</span><span class="w"></span>
+<span class="n">i</span><span class="w">  </span><span class="n">Authorizing</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">GitHub</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">upload</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="n">account</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">GitHub</span><span class="w"> </span><span class="n">repository</span><span class="s1">&#39;s secrets store.</span>
+
+<span class="s1">Visit this URL on this device to log in:</span>
+<span class="s1">https://github.com/login/oauth/authorize?client_id=[big long id string]</span>
+
+<span class="s1">Waiting for authentication...</span>
+
+<span class="s1">✔  Success! Logged into GitHub as scharfmn</span>
+
+<span class="s1">? For which GitHub repository would you like to set up a GitHub workflow? (format: u</span>
+<span class="s1">ser/repository) scharfmn/pythinkloop</span>
+
+<span class="s1">✔  Created service account github-action-9000000 with Firebase Hosting admin permissions.</span>
+<span class="s1">✔  Uploaded service account JSON to GitHub as secret [secret].</span>
+<span class="s1">i  You can manage your secrets at https://github.com/scharfmn/pythinkloop/settings/secrets.</span>
+
+<span class="s1">? Set up the workflow to run a build script before every deploy? No</span>
+
+<span class="s1">✔  Created workflow file /home/mike/things/pythinkloop/.github/workflows/firebase-hosting-pull-request.yml</span>
+<span class="s1">? Set up automatic deployment to your site&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">live</span><span class="w"> </span><span class="n">channel</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">PR</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">merged</span><span class="vm">?</span><span class="w"> </span><span class="n">Yes</span><span class="w"></span>
+<span class="vm">?</span><span class="w"> </span><span class="n">What</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">GitHub</span><span class="w"> </span><span class="n">branch</span><span class="w"> </span><span class="n">associated</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="n">site</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">live</span><span class="w"> </span><span class="n">channel</span><span class="vm">?</span><span class="w"> </span><span class="n">ma</span><span class="w"></span>
+<span class="ow">in</span><span class="w"></span>
+
+<span class="err">✔</span><span class="w">  </span><span class="n">Created</span><span class="w"> </span><span class="n">workflow</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">mike</span><span class="o">/</span><span class="n">things</span><span class="o">/</span><span class="n">pythinkloop</span><span class="o">/</span><span class="p">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">firebase</span><span class="o">-</span><span class="n">hosting</span><span class="o">-</span><span class="k">merge</span><span class="p">.</span><span class="n">yml</span><span class="w"></span>
+
+<span class="n">i</span><span class="w">  </span><span class="k">Action</span><span class="w"> </span><span class="nl">required</span><span class="p">:</span><span class="w"> </span><span class="n">Visit</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">URL</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">revoke</span><span class="w"> </span><span class="k">authorization</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">Firebase</span><span class="w"> </span><span class="n">CLI</span><span class="w"> </span><span class="n">GitHub</span><span class="w"> </span><span class="n">OAuth</span><span class="w"> </span><span class="nl">App</span><span class="p">:</span><span class="w"></span>
+<span class="nl">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">settings</span><span class="o">/</span><span class="n">connections</span><span class="o">/</span><span class="n">applications</span><span class="o">/[</span><span class="n">revoke-page-id</span><span class="o">]</span><span class="w"></span>
+<span class="n">i</span><span class="w">  </span><span class="k">Action</span><span class="w"> </span><span class="nl">required</span><span class="p">:</span><span class="w"> </span><span class="n">Push</span><span class="w"> </span><span class="ow">any</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">workflow</span><span class="w"> </span><span class="k">file</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="n">repo</span><span class="w"></span>
+
+<span class="n">i</span><span class="w">  </span><span class="n">Writing</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">firebase</span><span class="p">.</span><span class="n">json</span><span class="p">...</span><span class="w"></span>
+<span class="n">i</span><span class="w">  </span><span class="n">Writing</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="n">information</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">.</span><span class="n">firebaserc</span><span class="p">...</span><span class="w"></span>
+
+<span class="err">✔</span><span class="w">  </span><span class="n">Firebase</span><span class="w"> </span><span class="n">initialization</span><span class="w"> </span><span class="n">complete</span><span class="err">!</span><span class="w"></span>
+</code></pre></div>
+
+
+<p>Then I deployed:</p>
+<div class="highlight"><pre><span></span><code><span class="err">$</span><span class="w"> </span><span class="n">firebase</span><span class="w"> </span><span class="n">deploy</span><span class="w"></span>
+
+<span class="o">===</span><span class="w"> </span><span class="n">Deploying</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s1">&#39;pythinkloop&#39;</span><span class="p">...</span><span class="w"></span>
+
+<span class="n">i</span><span class="w">  </span><span class="n">deploying</span><span class="w"> </span><span class="n">hosting</span><span class="w"></span>
+<span class="n">i</span><span class="w">  </span><span class="n">hosting</span><span class="o">[</span><span class="n">pythinkloop</span><span class="o">]</span><span class="err">:</span><span class="w"> </span><span class="n">beginning</span><span class="w"> </span><span class="n">deploy</span><span class="p">...</span><span class="w"></span>
+<span class="n">i</span><span class="w">  </span><span class="n">hosting</span><span class="o">[</span><span class="n">pythinkloop</span><span class="o">]</span><span class="err">:</span><span class="w"> </span><span class="k">found</span><span class="w"> </span><span class="mi">47</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">output</span><span class="w"></span>
+<span class="err">✔</span><span class="w">  </span><span class="n">hosting</span><span class="o">[</span><span class="n">pythinkloop</span><span class="o">]</span><span class="err">:</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="n">upload</span><span class="w"> </span><span class="n">complete</span><span class="w"></span>
+<span class="n">i</span><span class="w">  </span><span class="n">hosting</span><span class="o">[</span><span class="n">pythinkloop</span><span class="o">]</span><span class="err">:</span><span class="w"> </span><span class="n">finalizing</span><span class="w"> </span><span class="n">version</span><span class="p">...</span><span class="w"></span>
+<span class="err">✔</span><span class="w">  </span><span class="n">hosting</span><span class="o">[</span><span class="n">pythinkloop</span><span class="o">]</span><span class="err">:</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="n">finalized</span><span class="w"></span>
+<span class="n">i</span><span class="w">  </span><span class="n">hosting</span><span class="o">[</span><span class="n">pythinkloop</span><span class="o">]</span><span class="err">:</span><span class="w"> </span><span class="n">releasing</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">version</span><span class="p">...</span><span class="w"></span>
+<span class="err">✔</span><span class="w">  </span><span class="n">hosting</span><span class="o">[</span><span class="n">pythinkloop</span><span class="o">]</span><span class="err">:</span><span class="w"> </span><span class="k">release</span><span class="w"> </span><span class="n">complete</span><span class="w"></span>
+
+<span class="err">✔</span><span class="w">  </span><span class="n">Deploy</span><span class="w"> </span><span class="n">complete</span><span class="err">!</span><span class="w"></span>
+
+<span class="n">Project</span><span class="w"> </span><span class="nl">Console</span><span class="p">:</span><span class="w"> </span><span class="nl">https</span><span class="p">:</span><span class="o">//</span><span class="n">console</span><span class="p">.</span><span class="n">firebase</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">project</span><span class="o">/</span><span class="n">projectname</span><span class="o">/</span><span class="n">overview</span><span class="w"></span>
+<span class="n">Hosting</span><span class="w"> </span><span class="nl">URL</span><span class="p">:</span><span class="w"> </span><span class="nl">https</span><span class="p">:</span><span class="o">//</span><span class="n">pythinkloop</span><span class="p">.</span><span class="n">web</span><span class="p">.</span><span class="n">app</span><span class="w"></span>
+</code></pre></div>
+
+
+<p>Everything was there, but deploy defaulted to the firebase "Hosting URL": https://pythinkloop.web.app</p>
+<p>I needed to follow Firebase's instructions for <a href="https://firebase.google.com/docs/hosting/custom-domain">connecting up a "custom domain"</a>. This proved straight-forward.</p>
+<p>Then I went over to GitHub and revoked access to the Firebase CLI as suggested:</p>
+<div class="highlight"><pre><span></span><code><span class="err">i  Action required: Visit this URL to revoke authorization for the Firebase CLI GitHub OAuth App:</span>
+<span class="c">https://github.com/settings/connections/applications/[revoke-page-id]</span>
+</code></pre></div>
+
+
+<p>The dialogue also confirmed that my next push should deploy this post:</p>
+<div class="highlight"><pre><span></span><code><span class="err">i  Action required: Push any new workflow file(s) to your repo</span>
+</code></pre></div>
+
+
+<p>It's been awhile, so I need to look at the <a href="https://docs.getpelican.com/en/latest/quickstart.html">Pelican quickstart</a> again first. Hopefully I'll be posting again before another month passes.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://pythinkloop.com/site-mechanics.html" rel="bookmark"
+                           title="Permalink to The mechanics of what's here...">The mechanics of what's here...</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2020-11-27T20:15:00-05:00">
                 Published: Fri 27 November 2020
@@ -32,39 +151,10 @@
         </address>
 <p>In <a href="https://pythinkloop.com/category/meta.html">Meta</a>.</p>
 
-</footer><!-- /.post-info --><p>Q: "Which static-site generator makes you happy as a Python developer / what did you end up using?" </p>
-<p>I looked at js-based solutions like <a href="https://ghost.org/">ghost</a> (too much), and the great Go-based <a href="https://gohugo.io/">Hugo</a> (maybe after I finally learn Go). In Ruby-world, there is the cool-looking but seemingly unmaintained <a href="https://github.com/cloudhead/toto">toto</a> (last commit in 2013), and the major player: <a href="https://jekyllrb.com/">Jekyll</a>. </p>
-<p>Jekyll seems like the obvious choice: it is the force behind <a href="https://pages.github.com/">GitHub Pages</a>, which I have actually used for prior projects. And the amazing-looking <a href="https://staticman.net/">staticman</a>, which actually seems to solve the problem of comments for static sites, is built for it. </p>
-<p>The problem, for me, with the Jekyll-GitHub Pages-staticman setup is <a href="https://gigaom.com/2014/06/30/the-dark-side-of-io-how-the-u-k-is-making-web-domain-profits-from-a-shady-cold-war-land-deal/">the dark side of io</a>. Even if you are using your own domain with Github pages, it seemingly relies under the hood on a <code>.io</code> domain, which I don't want to engage.</p>
-<p>And so, since I also didn't particularly want to get involved with <a href="https://disqus.com/">Disqus</a>, I decided to forget about comments for now and go with <a href="https://blog.getpelican.com/">Pelican</a>. It's Python, it's battle-tested, and it's simple to host via a cloud bucket. And that "Pelican" turns out to be an anagram of <em>calepin</em>, which is French for "notebook," made it that much nicer.</p>
-<p>Which cloud bucket? I've ended up on Google Cloud Platform for my personal projects. The reason has been, up to this point, <a href="https://firebase.google.com/">Firebase</a> (which was first recommended to me by my <a href="https://blog.samibadawi.com/">Sensei</a>). When you're writing a few pages by hand, and/or need a db, there doesn't seem to be an easier way to host a site. That's not really what this is, though, so when I thought about this site, I thought first: <a href="https://domains.google.com">Google Domains</a> and then: <a href="https://cloud.google.com/storage">Google Cloud Storage</a> must, by now, have the same functionality as GitHub Pages. That second thought looked to be correct, and once I found this <a href="https://cloud.google.com/storage/docs/hosting-static-website">tutorial for static site hosting on GCP</a>, I decided to try it.</p>
-<p>For <a href="https://pythinkloop.com/hello-and-what.html">my first Pelican-based post</a>, I read the <a href="https://docs.getpelican.com/en/latest/quickstart.html">quickstart</a>, and followed the directions. My markdown is not particularly fast, but there are cheat sheets. (I won't post one because I haven't settled on any.)</p>
-<p>I bought the domain and slowly followed the hosting tutorial <a href="https://cloud.google.com/storage/docs/hosting-static-website">directions</a>. Once I had completed all the steps, I tested via</p>
-<div class="highlight"><pre><span></span><code>$ pelican content
-</code></pre></div>
-
-
-<p>followed by</p>
-<div class="highlight"><pre><span></span><code>$ pelican --listen
-</code></pre></div>
-
-
-<p>and everything looked OK.</p>
-<p>I uploadled the <em>contents</em> of the entire Pelican-generated <code>output</code> folder and all its subfolders to the cloud bucket via the bucket's UI. (That is, not <code>output</code> itself as parent: <code>yourbucketname</code> <em>takes the place</em> of <code>output</code>-as-parent-folder.) And then I tried it, and my hello was live automagically.</p>
-<p>To publish this post, will take an incremental step toward CI by using Google Cloud's version of <a href="https://cloud.google.com/storage/docs/gsutil/commands/rsync">rsync</a>. From <a href="https://cloud.google.com/community/tutorials/automated-publishing-cloud-build">this post</a>, I learned the following:
-"The -m flag accelerates upload by processing multiple files in parallel, and the -c flag avoids re-uploading unchanged files." The -r flag recurses through the subdirs. The -d flag, the doc says, "provides a means of making the contents of a destination bucket or directory match those of a source bucket or directory."</p>
-<p>So the final command, having installed the <a href="https://cloud.google.com/storage/docs/gsutil">gsutil tool</a> is:</p>
-<div class="highlight"><pre><span></span><code>$ gsutil -m rsync -r -d /Users/Mike/projects/pythinkloop/output gs://pythinkloop.com
-</code></pre></div>
-
-
-<p>and if it works, this should show up...</p>
-<p>(it worked after I did <a href="https://stackoverflow.com/a/56952730/1599229">this</a> within the env)</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>What is powering this site?</p>
+                <a class="readmore" href="https://pythinkloop.com/site-mechanics.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
