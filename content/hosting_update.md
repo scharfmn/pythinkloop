@@ -1,5 +1,6 @@
 Title: Update: Hosting Pelican with Firebase
 Date: 2020-12-28 19:15
+Modified: 2020-12-29 13:23
 Category: Meta
 Slug: hosting-update
 Keywords: hosting, platforms, providers
@@ -11,21 +12,17 @@ Status: published
 
 So I got a hosting bill for $18.33 US for December and... no. There's no traffic to this site, so I must be paying 60 cents a day for the load balancer part of [this tutorial](https://cloud.google.com/storage/docs/hosting-static-website). So I deleted the load balancer and thought again: Firebase.
 
-So searched around and found [this tutorial](https://www.smashingmagazine.com/2020/04/free-developer-blog-hugo-firebase/) for Hugo + Firebase (from Smashing Magazine) and I figured: it will probably work if I skip to the part where Hugo has already generated the site and then sub in the Pelican-generated site for the rest of the steps.
+So searched around and found [this tutorial](https://www.smashingmagazine.com/2020/04/free-developer-blog-hugo-firebase/) for Hugo + Firebase (by [Zara Cooper](https://twitter.com/Zara__Cooper) in Smashing Magazine) and I figured: it will probably work if I skip to the part where Hugo has already generated the site and then sub in the Pelican-generated site for the rest of the steps.
 
-Recall [how I generate this Pelican site](https://pythinkloop.com/site-mechanics.html), but disregard all of the Google Cloud Storage bits.
+Recall [how I generated this Pelican site](https://pythinkloop.com/site-mechanics.html), but disregard all of the Google Cloud Storage bits.
 
-With the site generated, I tried beginning from from the point of "Deploying Your Blog To Firebase" in [the Hugo-based tutorial](https://www.smashingmagazine.com/2020/04/free-developer-blog-hugo-firebase/) and... it did work. Here's what I did:
+With the site still generated as-was, I tried beginning from from the point of "Deploying Your Blog To Firebase" in [the Hugo-based tutorial](https://www.smashingmagazine.com/2020/04/free-developer-blog-hugo-firebase/) and... it did work. Here's what I did:
 
-After the
-
-    $ firebase init
-
-command, I needed to tell it to use the
+You need to init the project as a Firebase project in the main blog project directory. After the init the command comes a series of prompts, including an ask re: which directory to set as the "public directory." I took this to be idenitical with the "output" directory of Pelican, which in my case is:
 
     /home/mike/things/pythinkloop/output
 
-directory as the "public directory." (Note: almost certainly doesn't matter, but that's a fake dir structure.) And I added GitHub integration as well, so that every push to main deploys automatically. Here's the whole dialogue:
+But since we are initting in the main project directory, and looking at the Hugo tutorial example too, it looks like that an absolute path isn't needed -- just the relative one, in this case just the child `output` directory. (Note: almost certainly doesn't matter, but that's a fake dir structure.) When asked, I also added GitHub integration as well (so that every push to main should deploy automatically). The whole dialogue is included in Zara Cooper's excellent set of screenshots included in the tutorial, but here's a bit more, plus the GitHub integration piece:
 
     $ firebase init
 
@@ -71,7 +68,7 @@ directory as the "public directory." (Note: almost certainly doesn't matter, but
 
     ✔  Firebase initialization complete!
 
-Then I deployed:
+Then I deployed manually:
 
     $ firebase deploy
 
